@@ -37,18 +37,25 @@
 
     <style>
         /* =========================================
-           1. Visual System
+           1. Visual System (Merged & Updated)
            ========================================= */
         :root {
+            /* Preserved Original Vars */
             --text-main: #050505;
             --text-gray: #555555;
             --bg-white: #ffffff;
-            --bg-yellow: #FFFDF2;       /* Light Yellow */
-            --accent-blue: #2563EB;     /* Tech Blue */
-            --youtube-red: #FF0000;     /* YouTube Red for player */
-            --btn-radius: 50px;         /* Capsule Radius */
-            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --bg-yellow: #FFFDF2;       
+            --youtube-red: #FF0000;     
+            --btn-radius: 50px;         
             --font-serif: "Georgia", "Times New Roman", Times, serif;
+
+            /* Imported New Vars from index-new.html */
+            --bg-body: #ffffff;
+            --accent-blue: #2563EB;
+            --border-color: #E5E5E5;
+            --radius-soft: 8px;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "JetBrains Mono", "Fira Code", monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -64,19 +71,28 @@
         }
 
         ::selection { background: var(--accent-blue); color: #fff; }
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s, color 0.2s; }
 
         /* =========================================
-           2. Navigation
+           2. Navigation (Updated with Transparency Logic)
            ========================================= */
         nav {
             position: fixed; top: 0; left: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 40px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(16px);
+            /* Default to transparent for Hero */
+            background: transparent;
+            backdrop-filter: none;
             z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.04);
+            border-bottom: 1px solid transparent;
+            transition: background 0.3s ease, backdrop-filter 0.3s ease, padding 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        /* State when scrolled */
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
         .logo {
@@ -85,7 +101,7 @@
         }
 
         .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a { color: #000; font-size: 0.95rem; font-weight: 500; } /* Forced black for visibility, adjust if needed */
         .nav-links a:hover { color: var(--accent-blue); }
 
         .btn-nav {
@@ -95,82 +111,48 @@
         }
 
         /* =========================================
-           3. Hero Section
+           3. Hero Section (IMPORTED 1:1 from index-new.html)
            ========================================= */
         main {
             position: relative;
             width: 100%;
-            min-height: 100vh;
-            display: flex; align-items: center;
-            padding: 110px 40px 60px 40px;
-            background-color: transparent;
+            height: 100vh;
+            display: flex;
+            align-items: center; /* Vertical Center */
+            justify-content: flex-start; /* Horizontal Left */
+            padding-left: 40px; 
+            padding-right: 40px;
             overflow: hidden;
-        }
-
-        .hero-visual-layer {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-image-right {
-            position: absolute;
-            top: 0; right: 0;
-            width: 55%;
-            height: 100%;
-            /* Placeholder background if image missing */
-            background-color: #f8f9fa; 
-            background-image: url('hero-background.jpg');
+            
+            /* Background Config */
+            background-image: url('hero.jpg'); /* Ensure this image exists, or fallback to hero-background.jpg */
             background-size: cover;
-            background-position: center left;
-            z-index: -1;
-            opacity: 0;
-            animation: imgFadeIn 1.2s ease-out 0.4s forwards;
+            background-position: center;
+        }
+
+        /* Dark overlay to ensure text readability */
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); 
+            z-index: 1;
         }
 
         .hero-content {
-            max-width: 1400px;
+            position: relative; z-index: 2;
             width: 100%;
-            margin: 0 auto;
-            z-index: 2;
-            display: flex; flex-direction: column; justify-content: center;
-            height: 100%;
-        }
-
-        .hero-text-group {
-            max-width: 800px;
-            margin-bottom: 50px;
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: textFadeIn 1s ease-out 0.2s forwards;
-        }
-
-        .cards-container {
-            display: flex; gap: 24px; width: 100%; max-width: 900px;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: cardsFadeIn 1s ease-out 0.6s forwards;
-        }
-
-        @keyframes imgFadeIn {
-            0% { opacity: 0; transform: translateX(20px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes textFadeIn {
-            0% { opacity: 0; transform: translateX(-30px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes cardsFadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            max-width: 800px; /* Limit text width */
+            text-align: left; /* Strict Left */
+            margin: 0; /* Reset margin from old file */
+            display: block; /* Reset flex */
         }
 
         h1 {
-            font-size: 4.2rem; line-height: 1.1; margin-bottom: 24px;
-            font-weight: 700; letter-spacing: -0.04em; color: #000;
+            font-size: 3.5rem; 
+            line-height: 1.1;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: #fff;
         }
         
         h1 u {
@@ -179,138 +161,150 @@
             padding-bottom: 2px;
         }
 
-        h1 a:hover u {
-            border-bottom-color: #000;
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            max-width: 600px;
+            margin-bottom: 40px;
         }
 
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: #444;
-            line-height: 1.6;
+        /* Glass Cards */
+        .hero-cards-row {
+            display: flex; gap: 20px;
             max-width: 700px;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(0,0,0,0.05);
-            padding: 32px;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            flex: 1; display: flex; flex-direction: column; justify-content: space-between;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            backdrop-filter: blur(10px);
+        .glass-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 24px;
+            border-radius: 12px;
+            color: #fff;
+            transition: transform 0.2s ease, background 0.2s;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            border-color: var(--accent-blue);
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
         }
-        .card h3 { font-size: 1.5rem; font-weight: 700; margin: 10px 0; }
-        .card p { color: #666; font-size: 1rem; margin-bottom: 24px; }
+        .glass-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+        .glass-card p { font-size: 0.9rem; opacity: 0.8; margin-bottom: 20px; line-height: 1.4; color: #fff; }
 
-        .btn {
-            display: inline-block; padding: 14px 0; text-align: center;
-            border-radius: var(--btn-radius); font-weight: 600; width: 100%;
-            cursor: pointer; transition: all 0.2s;
+        .btn-glass {
+            width: 100%; padding: 10px 0; text-align: center;
+            background: #fff; color: #000;
+            font-weight: 600; font-size: 0.9rem; border-radius: 4px;
+            cursor: pointer; display: block;
         }
-        .btn-black { background-color: #000; color: #fff; }
-        .btn-black:hover { background-color: var(--accent-blue); }
-        .btn-outline { background: transparent; border: 1px solid #ccc; color: #000; }
-        .btn-outline:hover { border-color: #000; background: #fff; }
+        .btn-glass.outline { background: transparent; border: 1px solid rgba(255,255,255,0.5); color: #fff; }
+        .btn-glass.outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
         /* =========================================
-           4. NEWS SECTION
+           4. Axioms Section (IMPORTED from index-new.html)
            ========================================= */
-        .news-section {
-            background-color: var(--bg-white);
-            padding: 80px 40px;
-        }
-
-        .news-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-            border-bottom: 4px solid #000;
-            padding-bottom: 10px;
-        }
-
-        .news-header h2 {
-            font-size: 3rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.03em;
-            line-height: 0.9;
-        }
-
-        .news-header .date-badge {
-            font-family: var(--font-stack);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.05em;
-        }
-
-        .news-layout {
-            display: grid;
-            grid-template-columns: 1.3fr 1fr; 
-            border-bottom: 1px solid #000;
-        }
-
-        .news-main-story {
-            border-right: 1px solid #000;
-            padding: 40px 40px 40px 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: background 0.2s;
+        .axioms-bar {
+            background-color: #000;
+            color: #fff;
+            padding: 60px 40px;
+            border-bottom: 1px solid #222;
         }
         
-        .news-main-story:hover .news-headline-main { color: var(--accent-blue); }
-
-        .news-tag {
-            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.1em; margin-bottom: 16px; display: inline-block;
-            background: #000; color: #fff; padding: 4px 8px;
+        .axioms-grid {
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            align-items: start;
         }
 
-        .news-tag.research { background-color: #000; }
-        .news-headline-main {
-            font-family: var(--font-serif);
-            font-size: 2.8rem; line-height: 1.1; font-weight: 700;
-            margin-bottom: 20px; color: #000; letter-spacing: -0.02em;
+        .axiom-item {
+            border-left: 1px solid #333;
+            padding-left: 30px;
+            transition: border-color 0.3s;
         }
+        .axiom-item:hover { border-left-color: var(--accent-blue); }
 
-        .news-excerpt { font-size: 1.1rem; color: #555; max-width: 90%; line-height: 1.6; }
-
-        .news-sidebar { display: flex; flex-direction: column; }
-
-        .news-item-side {
-            padding: 30px; border-bottom: 1px solid #e5e5e5;
-            flex: 1; display: flex; flex-direction: column; justify-content: center;
-            transition: padding-left 0.2s;
+        .axiom-title {
+            font-size: 2rem; font-weight: 800;
+            letter-spacing: -0.04em; margin-bottom: 12px;
+            color: #fff;
         }
-        .news-item-side:last-child { border-bottom: none; }
-        .news-item-side:hover { background-color: #fafafa; padding-left: 35px; }
-        .news-item-side:hover .news-headline-side { text-decoration: underline; text-decoration-thickness: 2px; }
-
-        .news-headline-side {
-            font-family: var(--font-stack); font-size: 1.4rem; font-weight: 700;
-            line-height: 1.3; color: #000; letter-spacing: -0.02em; margin-bottom: 8px;
-        }
-
-        .news-meta {
-            font-size: 0.85rem; color: #888; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.05em;
+        
+        .axiom-desc {
+            font-family: var(--font-mono);
+            font-size: 0.85rem; color: #888;
+            line-height: 1.6;
         }
 
         /* =========================================
-           5. Custom Video Player (YouTube Style)
+           5. News Section (IMPORTED from index-new.html)
+           ========================================= */
+        .news-section {
+            padding: 100px 40px;
+            background: #fff;
+        }
+        
+        .news-wrapper {
+            max-width: 1400px; margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem; text-transform: uppercase; color: var(--accent-blue);
+            margin-bottom: 40px; display: block; letter-spacing: 0.1em; font-weight: 700;
+        }
+
+        .news-split {
+            display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px;
+            border-top: 4px solid #000;
+            padding-top: 40px;
+        }
+
+        /* Left Main Story */
+        .main-story {
+            padding-right: 40px;
+        }
+        .main-story h2 {
+            font-size: 3rem; line-height: 1.05; font-weight: 800;
+            margin-bottom: 24px; letter-spacing: -0.03em; color: #000;
+        }
+        .main-story p {
+            font-size: 1.1rem; color: #555; line-height: 1.6; margin-bottom: 30px;
+        }
+        .read-more-link {
+            font-weight: 700; font-size: 1rem; border-bottom: 2px solid #000;
+            padding-bottom: 4px; display: inline-block; color: #000;
+        }
+
+        /* Right List */
+        .side-news-list {
+            display: flex; flex-direction: column;
+            border-left: 1px solid #eee;
+            padding-left: 60px;
+        }
+
+        .side-item {
+            padding-bottom: 30px; margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            display: block;
+        }
+        .side-item:last-child { border-bottom: none; }
+        
+        .side-meta {
+            font-size: 0.75rem; font-weight: 700; color: #999;
+            text-transform: uppercase; margin-bottom: 8px; display: block;
+        }
+        .side-headline {
+            font-size: 1.25rem; font-weight: 600; line-height: 1.3;
+            color: #000;
+        }
+        .side-item:hover .side-headline { color: var(--accent-blue); }
+
+        /* =========================================
+           6. Video & Features (Preserved from Original)
            ========================================= */
         .video-quote-section {
             background-color: var(--bg-yellow);
@@ -326,13 +320,10 @@
             border-radius: 12px; overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
             aspect-ratio: 16/9; background: #000;
-            group: video-player; /* for hover states */
         }
 
-        /* The actual video element */
         #realVideo { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        /* Initial Cover / Start Screen */
         .video-cover {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             cursor: pointer; z-index: 10;
@@ -357,7 +348,6 @@
         .video-cover:hover .big-play-btn { background: #CC0000; transform: scale(1.1); }
         .big-play-btn svg { fill: #fff; width: 24px; height: 24px; }
 
-        /* Custom Controls Overlay */
         .yt-controls {
             position: absolute; bottom: 0; left: 0; width: 100%;
             background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
@@ -368,11 +358,9 @@
             gap: 8px;
         }
         
-        /* Show controls on hover or when paused (if cover is hidden) */
         .video-container:hover .yt-controls,
         .video-container.paused .yt-controls { opacity: 1; }
 
-        /* Progress Bar */
         .yt-progress-container {
             width: 100%; height: 5px; background: rgba(255,255,255,0.3);
             cursor: pointer; position: relative;
@@ -390,7 +378,6 @@
         }
         .yt-progress-container:hover .yt-progress-filled::after { transform: translateY(-50%) scale(1); }
 
-        /* Buttons Row */
         .yt-controls-row {
             display: flex; align-items: center; justify-content: space-between;
             color: #fff; height: 40px;
@@ -407,7 +394,6 @@
 
         .yt-time { font-size: 13px; font-weight: 500; font-family: sans-serif; margin-left: 5px; }
 
-        /* Quote */
         .quote-container { width: 45%; }
         blockquote {
             font-size: 2rem; font-weight: 600; line-height: 1.3;
@@ -415,9 +401,6 @@
             border-left: 4px solid var(--accent-blue); padding-left: 30px;
         }
 
-        /* =========================================
-           6. Company Intro & Audio Feature
-           ========================================= */
         .company-intro {
             background-color: var(--bg-white);
             padding: 120px 40px;
@@ -430,7 +413,6 @@
         .intro-description { width: 50%; color: var(--text-gray); font-size: 1.2rem; }
         .intro-description p { margin-bottom: 20px; }
 
-        /* Audio Speaker Button */
         .audio-btn {
             display: inline-flex; align-items: center; justify-content: center;
             vertical-align: middle; margin-left: 8px; margin-bottom: 4px;
@@ -464,9 +446,6 @@
             letter-spacing: -0.02em; pointer-events: none;
         }
 
-        /* =========================================
-           7. Featured Section
-           ========================================= */
         .featured-section {
             background-color: var(--bg-yellow);
             padding: 120px 40px;
@@ -492,9 +471,6 @@
         }
         .f-item-date { color: #888; font-size: 0.95rem; text-align: right; }
 
-        /* =========================================
-           8. NEW Call to Action (CTA) Section
-           ========================================= */
         .cta-section {
             background-color: #000;
             color: #fff;
@@ -524,9 +500,6 @@
         }
         .cta-btn-secondary:hover { border-color: #fff; background-color: #fff; color: #000; transform: translateY(-2px); }
 
-        /* =========================================
-           9. Footer
-           ========================================= */
         .footer {
             background-color: #080808;
             color: #ffffff;
@@ -560,27 +533,17 @@
         .footer-social-icons a:hover { opacity: 1; }
         .footer-social-icons svg { fill: currentColor; }
 
-        /* =========================================
-           10. Responsive
-           ========================================= */
         @media (max-width: 1024px) {
-            main { padding-top: 120px; height: auto; }
-            .hero-content { width: 100%; }
-            .hero-image-right { width: 100%; opacity: 0.1 !important; }
-            
-            h1 { font-size: 3rem; }
-            .content-wrapper, .intro-text-row, .featured-container, .footer-content, .news-layout { flex-direction: column; gap: 40px; }
-            .video-container, .quote-container, .intro-headline, .intro-description, .featured-title, .featured-list, .news-layout { width: 100%; }
-            
-            .news-layout { display: flex; flex-direction: column; border-bottom: none; }
-            .news-main-story { border-right: none; border-bottom: 1px solid #000; padding: 0 0 40px 0; }
-            .news-item-side { padding: 30px 0; }
-            
+            /* Updated Responsive styles for new sections */
+            main { height: auto; padding: 120px 20px; }
+            h1 { font-size: 2.8rem; }
+            .hero-cards-row { flex-direction: column; width: 100%; }
+            .axioms-grid, .news-split, .content-wrapper, .intro-text-row, .featured-container, .footer-content { flex-direction: column; gap: 40px; }
+            .side-news-list { border-left: none; padding-left: 0; }
+            .video-container, .quote-container, .intro-headline, .intro-description, .featured-title, .featured-list { width: 100%; }
             .featured-item { grid-template-columns: 1fr; gap: 8px; }
             .f-item-date { text-align: left; }
             .intro-cards { grid-template-columns: 1fr; }
-            .cards-container { flex-direction: column; }
-            
             .footer-brand { max-width: 100%; }
             .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
         }
@@ -600,73 +563,77 @@
     </nav>
 
     <main>
-        <!--<div class="hero-visual-layer">
-            <div class="hero-image-right"></div>
-        </div>-->
-
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <div class="hero-text-group">
-                <h1>
-                    Building AI that thinks 
-                    <a href="ode.html"><u>deeply</u></a> and 
-                    <a href="LLM-Thinking-Protocol-Injection.html"><u>acts responsibly</u></a>.
-                </h1>
-                <p class="hero-subtitle">
-                    Protoethik is building the next generation of AI systems that think deeply, reason transparently, and empower humanity.  
-                </p>
-            </div>
+            <h1>
+                Building AI that thinks <br>
+                <a href="ode.html"><u>deeply</u></a> and acts responsibly.
+            </h1>
+            <p class="hero-subtitle">
+                Protoethik is building the next generation of AI systems that think deeply, reason transparently, and empower humanity.
+            </p>
 
-            <div class="cards-container">
-                <div class="card">
+            <div class="hero-cards-row">
+                <div class="glass-card">
                     <div>
                         <h3>Experience TyloAI</h3>
                         <p>Meet our latest flagship model and the entire ode-7 family on our official chat platform.</p>
                     </div>
-                    <a href="https://tyloai.com" class="btn btn-black">Start Chatting</a>
+                    <a href="https://tyloai.com" class="btn-glass">Start Chatting</a>
                 </div>
-                <div class="card">
+                <div class="glass-card">
                     <div>
                         <h3>ode-code CLI</h3>
                         <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks.</p>
                     </div>
-                    <a href="https://docs.tyloai.com/ode-code.html" class="btn btn-outline">Read Docs</a>
+                    <a href="https://docs.tyloai.com/ode-code.html" class="btn-glass outline">Read Docs</a>
                 </div>
             </div>
         </div>
     </main>
 
-    <section class="news-section" id="news-section">
-        <div class="news-container">
-            <div class="news-header">
-                <h2>Latest News</h2>
-                <div class="date-badge">November 25, 2025</div>
+    <section class="axioms-bar">
+        <div class="axioms-grid">
+            <div class="axiom-item">
+                <div class="axiom-title">Safety First.</div>
+                <div class="axiom-desc">We bake verification into the reasoning trace itself, not as a post-training patch.</div>
             </div>
+            <div class="axiom-item">
+                <div class="axiom-title">Transparency.</div>
+                <div class="axiom-desc">Models that explain "why" before they tell you "what". Full cognitive inspectability.</div>
+            </div>
+            <div class="axiom-item">
+                <div class="axiom-title">Deceleration.</div>
+                <div class="axiom-desc">Intentionally slowing deployment to ensure robust understanding and alignment.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" id="news-section">
+        <div class="news-wrapper">
+            <span class="section-label">Latest Intelligence / Nov 25, 2025</span>
             
-            <div class="news-layout">
-                <a href="LLM-Thinking-Protocol-Injection.html" class="news-main-story">
-                    <span class="news-tag research">Research</span>
-                    <h3 class="news-headline-main">
-                        Empirical study on logical decoupling, asynchronous alignment, and fake transparency risks in DeepSeek-R1
-                    </h3>
-                    <p class="news-excerpt">
-                        A critical analysis of transparency protocols in modern LLMs. We investigate the underlying mechanisms of logic separation.
-                    </p>
-                </a>
-
-                <div class="news-sidebar">
-                    <a href="llm-train-llm.html" class="news-item-side">
-                        <span class="news-meta">RESEARCH</span>
-                        <h4 class="news-headline-side">Can TyloAI be used to train another large language model?</h4>
+            <div class="news-split">
+                <div class="main-story">
+                    <a href="LLM-Thinking-Protocol-Injection.html">
+                        <h2>Empirical study on logical decoupling and fake transparency risks in DeepSeek-R1</h2>
+                        <p>A critical analysis of transparency protocols in modern LLMs. We investigate the underlying mechanisms of logic separation and propose a new standard for async alignment.</p>
+                        <span class="read-more-link">Read Full Paper -></span>
                     </a>
-                    
-                    <a href="ode.html" class="news-item-side">
-                        <span class="news-meta">New Release</span>
-                        <h4 class="news-headline-side">Introducing the ode-7 model family: Smarter coding models</h4>
-                    </a>
+                </div>
 
-                    <a href="https://docs.tyloai.com/ode-code.html" class="news-item-side">
-                        <span class="news-meta">PRODUCT</span>
-                        <h4 class="news-headline-side">Introducing ode-code CLI</h4>
+                <div class="side-news-list">
+                    <a href="ode.html" class="side-item">
+                        <span class="side-meta">Product Release</span>
+                        <h3 class="side-headline">Introducing the ode-7 model family: Smarter coding models</h3>
+                    </a>
+                    <a href="llm-train-llm.html" class="side-item">
+                        <span class="side-meta">Research Note</span>
+                        <h3 class="side-headline">Can TyloAI be used to train another large language model?</h3>
+                    </a>
+                    <a href="https://docs.tyloai.com/ode-code.html" class="side-item">
+                        <span class="side-meta">Tooling</span>
+                        <h3 class="side-headline">ode-code CLI v1.0 released with Rust support</h3>
                     </a>
                 </div>
             </div>
@@ -981,6 +948,18 @@
                 window.speechSynthesis.speak(utterance);
             } else {
                 alert("Sorry, your browser doesn't support text-to-speech.");
+            }
+        });
+
+        // ============================
+        // 3. NEW: Scroll Logic for Navbar Transparency
+        // ============================
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
             }
         });
 
