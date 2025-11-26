@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ode-7 Model Family | Protoethik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="description" content="Meet the ode-7 model family: From the high-speed ode-7-flash to the reasoning powerhouse ode-7-reasoning.">
+    <style>
+        /* =========================================
+           1. Visual System (Inherited)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-yellow: #FFFDF2;
+            --accent-blue: #2563EB;
+            --btn-radius: 50px;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        ::selection { background: var(--accent-blue); color: #fff; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+
+        /* =========================================
+           2. Navigation (Replica)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+            text-transform: uppercase; color: #000;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #666; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .btn-nav {
+            background-color: #000; color: #fff !important;
+            padding: 10px 24px; border-radius: var(--btn-radius);
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* =========================================
+           3. Hero Section (Customized for ode-7)
+           ========================================= */
+        header.ode-hero {
+            padding: 180px 40px 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            animation: heroFadeIn 1s ease-out forwards;
+        }
+
+        header.ode-hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            margin-bottom: 30px;
+        }
+
+        header.ode-hero p {
+            font-size: 1.35rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--bg-yellow);
+            border: 1px solid #e0e0e0;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @keyframes heroFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* =========================================
+           4. Models Grid Section
+           ========================================= */
+        .section-padding { padding: 100px 40px; }
+        .bg-yellow { background-color: var(--bg-yellow); }
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        .section-title {
+            font-size: 2.5rem; font-weight: 700; letter-spacing: -0.03em;
+            margin-bottom: 60px;
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .model-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--accent-blue);
+        }
+
+        .model-tag {
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            color: var(--accent-blue); letter-spacing: 0.05em; margin-bottom: 16px; display: block;
+        }
+
+        .model-card h3 { font-size: 2rem; margin-bottom: 16px; font-weight: 700; }
+        .model-card p { font-size: 1.1rem; color: #666; margin-bottom: 24px; }
+        
+        .feature-list { list-style: none; }
+        .feature-list li {
+            padding-left: 20px; position: relative; margin-bottom: 8px; color: #444; font-size: 0.95rem;
+        }
+        .feature-list li::before {
+            content: "•"; color: var(--accent-blue); position: absolute; left: 0; font-weight: bold;
+        }
+
+        /* =========================================
+           5. Use Cases Section
+           ========================================= */
+        .case-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+            margin-top: 40px;
+        }
+
+        .case-item h4 { font-size: 1.6rem; margin-bottom: 20px; font-weight: 700; }
+        .case-item p { color: #555; margin-bottom: 20px; font-size: 1.05rem; }
+        .case-stat {
+            font-size: 3rem; font-weight: 800; color: #000; line-height: 1; margin-bottom: 10px;
+        }
+        .case-stat span { font-size: 1rem; font-weight: 500; color: #666; margin-left: 8px; vertical-align: middle; }
+
+        /* =========================================
+           6. Safety / Constitution Section
+           ========================================= */
+        .safety-layout { display: flex; align-items: flex-start; gap: 80px; }
+        .safety-text { width: 50%; }
+        .safety-visual {
+            width: 50%; background: #fff; border-radius: 16px; padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.05); border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .warning-box {
+            background: #FFF5F5; border-left: 4px solid #FF4444; padding: 20px;
+            margin-top: 20px; font-size: 0.9rem; color: #333;
+            border-radius: 0 8px 8px 0;
+        }
+        .monitor-log {
+            font-family: "SF Mono", "Monaco", "Courier New", monospace;
+            font-size: 0.85rem; color: #444;
+        }
+        .log-entry { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .log-label { font-weight: bold; color: var(--accent-blue); }
+
+        /* =========================================
+           7. Pricing & Access
+           ========================================= */
+        .pricing-row {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+            margin-top: 50px;
+        }
+        .pricing-card {
+            background: #f9f9f9; padding: 32px; border-radius: 16px;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .pricing-card.highlight { background: #000; color: #fff; }
+        .pricing-card.highlight p { color: #aaa; }
+        .pricing-card.highlight h3 { color: #fff; }
+
+        .pricing-card h3 { font-size: 1.4rem; margin-bottom: 10px; }
+        .pricing-card p { font-size: 0.95rem; color: #666; margin-bottom: 24px; }
+        
+        /* =========================================
+           8. Footer (Replica)
+           ========================================= */
+        .footer {
+            background-color: #080808; color: #ffffff;
+            padding: 80px 40px 40px 40px; font-size: 0.95rem;
+        }
+        .footer-content {
+            max-width: 1400px; margin: 0 auto; display: flex; flex-wrap: wrap;
+            justify-content: space-between; gap: 40px;
+        }
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 {
+            font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em;
+        }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 {
+            font-size: 0.85rem; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 0.05em; color: #666; margin-bottom: 24px;
+        }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
+        .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
+        .footer-bottom {
+            max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px;
+            border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;
+            color: #666; font-size: 0.85rem;
+        }
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            header.ode-hero h1 { font-size: 3rem; }
+            .models-grid, .case-grid, .safety-layout, .pricing-row { grid-template-columns: 1fr; flex-direction: column; gap: 40px; }
+            .safety-text, .safety-visual { width: 100%; }
+            .footer-content, .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-brand { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="research.html">Research</a>
+            <a href="https://platform.tyloai.com">API</a>
+            <a href="news.html">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <header class="ode-hero">
+        <span class="hero-badge">Released Q4 2025</span>
+        <h1>The ode-7 Family.</h1>
+        <p>
+            From lightweight speed to profound reasoning. In the fourth quarter of 2025, we completed the ode-7 lineup—delivering the optimal model for every scenario.
+        </p>
+    </header>
+
+    <section class="section-padding bg-yellow">
+        <div class="container">
+            <h2 class="section-title">A Spectrum of Intelligence</h2>
+            <div class="models-grid">
+                <div class="model-card">
+                    <span class="model-tag">Released Sept 2025</span>
+                    <h3>ode-7-flash</h3>
+                    <p>Designed for speed and efficiency. The cost-effective choice for tasks requiring rapid execution without deep reasoning.</p>
+                    <ul class="feature-list">
+                        <li>Ultra-low latency</li>
+                        <li>High throughput</li>
+                        <li>No reasoning capabilities</li>
+                    </ul>
+                </div>
+
+                <div class="model-card">
+                    <span class="model-tag">Released Oct 2025</span>
+                    <h3>ode-7</h3>
+                    <p>The balanced standard. A highly versatile model that intelligently decides when to engage reasoning capabilities based on query complexity.</p>
+                    <ul class="feature-list">
+                        <li>General-purpose excellence</li>
+                        <li>Autonomous reasoning activation</li>
+                        <li>Strong analytical skills</li>
+                    </ul>
+                </div>
+
+                <div class="model-card">
+                    <span class="model-tag">Released Nov 2025</span>
+                    <h3>ode-7-reasoning</h3>
+                    <p>The flagship. Engineered for maximum performance with forced high-intensity reasoning for the most complex problems.</p>
+                    <ul class="feature-list">
+                        <li>Maximum cognitive depth</li>
+                        <li>Always-on reasoning chain</li>
+                        <li>Solves extreme complexity</li>
+                    </ul>
+                </div>
+
+                <div class="model-card">
+                    <span class="model-tag">Released Nov 2025</span>
+                    <h3>ode-7-code</h3>
+                    <p>Built on the streamlined framework of ode-7. A specialized coding assistant now powering the ode-code CLI experience.</p>
+                    <ul class="feature-list">
+                        <li>Code-first specialization</li>
+                        <li>Optimized for systems architecture</li>
+                        <li>Deployed in ode-code</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Capability Breakthroughs</h2>
+            <div class="case-grid">
+                <div class="case-item">
+                    <div class="case-stat">30s <span>to generate</span></div>
+                    <h4>Complete CRM Dashboards</h4>
+                    <p>Every model in the ode-7 family can generate a fully functional CRM dashboard in 30-40 seconds. This includes understanding complex UI requirements, generating complete frontend code (HTML/CSS/JS) with data structures, and delivering a ready-to-run result with zero debugging needed.</p>
+                </div>
+                <div class="case-item">
+                    <div class="case-stat">11k <span>lines of code</span></div>
+                    <h4>Enterprise Chat Applications</h4>
+                    <p>ode-7-reasoning and ode-7-code can single-handedly write approximately 11,000 lines of code to build a Slack/Teams-level application. This goes beyond simple snippets—handling system architecture, real-time logic, database design, auth mechanisms, and complex UI/UX implementation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-yellow">
+        <div class="container">
+            <div class="safety-layout">
+                <div class="safety-text">
+                    <h2 class="section-title">Reasoning Authenticity:<br>The Constitution Model</h2>
+                    <p style="font-size: 1.1rem; color: #444; margin-bottom: 20px;">
+                        We have introduced a new auxiliary system: <strong>The Constitution Model</strong>.
+                    </p>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        This model monitors the "thinking process" in real-time. It acts as a cognitive guardrail, capable of intercepting and preventing the generation of fake, harmful, or hallucinatory information before it reaches the user.
+                    </p>
+                    <p style="color: #666;">
+                        By auditing the thought chain, we ensure that deep reasoning translates into reliable, safe, and actionable intelligence.
+                    </p>
+                </div>
+                <div class="safety-visual">
+                    <div class="monitor-log">
+                        <div class="log-entry">
+                            <span class="log-label">USER PROMPT:</span> Generate a chemical synthesis for [REDACTED_COMPOUND]...
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-label">ODE-7 THOUGHT:</span> Analyzing chemical structure. Identifying potential precursors...
+                        </div>
+                        <div class="log-entry">
+                            <span class="log-label" style="color: #d00;">CONSTITUTION INTERVENTION:</span> Risk Detected (Category: Hazardous/Illicit). 
+                        </div>
+                        <div class="warning-box">
+                            <strong>System Action:</strong> Thinking process halted. Refusal message generated based on safety guidelines.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center;">Availability & Access</h2>
+            <p style="text-align: center; max-width: 700px; margin: 0 auto 40px auto; color: #666;">
+                The ode-7 family is now live across TyloAI.com, our mobile apps, and ode-code.
+            </p>
+            
+            <div class="pricing-row">
+                <div class="pricing-card">
+                    <div>
+                        <h3>Free Plan</h3>
+                        <p>Experience the power of ode-7 with limited usage.</p>
+                    </div>
+                    <ul class="feature-list">
+                        <li>Access to ode-7-flash</li>
+                        <li>Limited daily queries for ode-7</li>
+                        <li>No access to ode-7-code</li>
+                    </ul>
+                </div>
+                
+                <div class="pricing-card">
+                    <div>
+                        <h3>Pro Plan</h3>
+                        <p>For professionals who need reliable tools.</p>
+                    </div>
+                    <ul class="feature-list">
+                        <li><strong>Limits Removed:</strong> ode-7-reasoning & Lite</li>
+                        <li>High usage limits (matched to ode-6 volume)</li>
+                        <li>Full ode-code access</li>
+                    </ul>
+                </div>
+
+                <div class="pricing-card highlight">
+                    <div>
+                        <h3>Max Plan</h3>
+                        <p>Unconstrained creativity for power users.</p>
+                    </div>
+                    <ul class="feature-list" style="color: #ccc;">
+                        <li><strong>Unlimited Access</strong> to entire ode-7 family</li>
+                        <li>Priority processing</li>
+                        <li>Transform your workflow completely</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com/product/overview.html">TyloAI</a></li>
+                    <li><a href="https://tyloai.com/product/ode-code.html">ode-code</a></li>
+                    <li><a href="https://platform.tyloai.com/api">API(Console login)</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Free Plan</a></li>
+                    <li><a href="plan.html">Pro Plan</a></li>
+                    <li><a href="plan.html">Max Plan</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                    <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="nano-model.html">Nano Models</a></li>
+                    <li><a href="ode.html">ode Models</a></li>
+                    <li><a href="prism-model.html">Prism Models</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="news.html">News & Blog</a></li>
+                    <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik. All rights reserved. | Building AI that thinks deeply and acts responsibly.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

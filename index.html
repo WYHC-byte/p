@@ -1,5 +1,6 @@
-<!DOCTYPE html><!-- Last Published: Thu Nov 20 2025 21:10:25 GMT+0000 (Coordinated Universal Time) -->
-<html lang="zh">
+<!-- Last Published: Thu Nov 25 2025 21:10:25 GMT+0000 (Coordinated Universal Time) -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,16 +12,17 @@
     <meta property="og:description" content="Building AI that thinks deeply and acts responsibly.">
     <style>
         /* =========================================
-           1. 视觉系统 (Visual System)
+           1. Visual System
            ========================================= */
         :root {
             --text-main: #050505;
             --text-gray: #555555;
             --bg-white: #ffffff;
-            --bg-yellow: #FFFDF2;       /* 浅黄色 */
-            --accent-blue: #2563EB;     /* 科技蓝 */
-            --btn-radius: 50px;         /* 胶囊圆角 */
+            --bg-yellow: #FFFDF2;       /* Light Yellow */
+            --accent-blue: #2563EB;     /* Tech Blue */
+            --btn-radius: 50px;         /* Capsule Radius */
             --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-serif: "Georgia", "Times New Roman", Times, serif; /* Added for Newspaper feel */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,7 +39,7 @@
         a { text-decoration: none; color: inherit; transition: color 0.2s; }
 
         /* =========================================
-           2. 导航栏 (Nav)
+           2. Navigation
            ========================================= */
         nav {
             position: fixed; top: 0; left: 0; width: 100%;
@@ -65,7 +67,7 @@
         }
 
         /* =========================================
-           3. Hero 主视觉区 (Updated Animation - No Diagonal Line)
+           3. Hero Section
            ========================================= */
         main {
             position: relative;
@@ -77,80 +79,65 @@
             overflow: hidden;
         }
 
-        /* 动画背景层容器 */
         .hero-visual-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; /* 在内容之下 */
+            z-index: 1;
             pointer-events: none;
         }
 
-        /* 右侧图片区域 */
         .hero-image-right {
             position: absolute;
             top: 0; right: 0;
-            width: 55%; /* 占据右侧空间 */
+            width: 55%;
             height: 100%;
-            background-image: url('hero-background.jpg'); /* 使用原来的图片 */
+            background-image: url('hero-background.jpg');
             background-size: cover;
             background-position: center left;
             z-index: -1;
-            opacity: 0; /* 初始隐藏 */
-            /* 保持直角边缘，移除 clip-path */
+            opacity: 0;
             animation: imgFadeIn 1.2s ease-out 0.4s forwards;
         }
 
-        /* 内容区域 */
         .hero-content {
             max-width: 1400px;
             width: 100%;
             margin: 0 auto;
-            z-index: 2; /* 确保在图片之上 */
+            z-index: 2;
             display: flex; flex-direction: column; justify-content: center;
             height: 100%;
         }
 
-        /* 文字组动画 */
         .hero-text-group {
             max-width: 800px;
             margin-bottom: 50px;
-            opacity: 0; /* 初始隐藏 */
-            transform: translateX(-30px); /* 初始位置偏左 */
+            opacity: 0;
+            transform: translateX(-30px);
             animation: textFadeIn 1s ease-out 0.2s forwards;
         }
 
-        /* 卡片组动画 */
         .cards-container {
             display: flex; gap: 24px; width: 100%; max-width: 900px;
             opacity: 0;
             transform: translateY(20px);
-            animation: cardsFadeIn 1s ease-out 0.6s forwards; /* 比文字晚一点 */
+            animation: cardsFadeIn 1s ease-out 0.6s forwards;
         }
 
-        /* =========================================
-           动画关键帧 Definition
-           ========================================= */
-        
-        /* 1. 图片淡入 */
         @keyframes imgFadeIn {
             0% { opacity: 0; transform: translateX(20px); }
             100% { opacity: 1; transform: translateX(0); }
         }
 
-        /* 2. 文字淡入 + 向右归位 */
         @keyframes textFadeIn {
             0% { opacity: 0; transform: translateX(-30px); }
             100% { opacity: 1; transform: translateX(0); }
         }
 
-        /* 3. 卡片上浮淡入 */
         @keyframes cardsFadeIn {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-
-        /* 原有样式保持不变 */
         h1 {
             font-size: 4.2rem; line-height: 1.1; margin-bottom: 24px;
             font-weight: 700; letter-spacing: -0.04em; color: #000;
@@ -202,7 +189,148 @@
         .btn-outline:hover { border-color: #000; background: #fff; }
 
         /* =========================================
-           4. 视频板块 (Light Yellow)
+           4. NEWS SECTION (Newspaper Design)
+           ========================================= */
+        .news-section {
+            background-color: var(--bg-white);
+            padding: 80px 40px;
+            /* No background clutter, just clean whitespace */
+        }
+
+        .news-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .news-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            border-bottom: 4px solid #000; /* Bold top border */
+            padding-bottom: 10px;
+        }
+
+        .news-header h2 {
+            font-size: 3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.03em;
+            line-height: 0.9;
+        }
+
+        .news-header .date-badge {
+            font-family: var(--font-stack);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* The Grid: 2 Columns. Left (Main) gets 60%, Right (Sidebar) gets 40% */
+        .news-layout {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr; 
+            border-bottom: 1px solid #000; /* Bottom border closure */
+        }
+
+        /* Main Story (Left) */
+        .news-main-story {
+            border-right: 1px solid #000;
+            padding: 40px 40px 40px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .news-main-story:hover .news-headline-main {
+            color: var(--accent-blue);
+        }
+
+        .news-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+        }
+
+        .news-tag.research { background-color: #000; }
+        .news-tag.product { background-color: var(--accent-blue); }
+        .news-tag.edu { background-color: #f59e0b; }
+
+        .news-headline-main {
+            font-family: var(--font-serif); /* Serif for authority */
+            font-size: 2.8rem;
+            line-height: 1.1;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #000;
+            letter-spacing: -0.02em;
+        }
+
+        .news-excerpt {
+            font-size: 1.1rem;
+            color: #555;
+            max-width: 90%;
+            line-height: 1.6;
+        }
+
+        /* Sidebar Stories (Right) */
+        .news-sidebar {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-item-side {
+            padding: 30px;
+            border-bottom: 1px solid #e5e5e5;
+            flex: 1; /* Distribute height equally */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: padding-left 0.2s;
+        }
+
+        .news-item-side:last-child {
+            border-bottom: none;
+        }
+
+        .news-item-side:hover {
+            background-color: #fafafa;
+            padding-left: 35px;
+        }
+        
+        .news-item-side:hover .news-headline-side {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+        }
+
+        .news-headline-side {
+            font-family: var(--font-stack);
+            font-size: 1.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: #000;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .news-meta {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           5. Video Section
            ========================================= */
         .video-quote-section {
             background-color: var(--bg-yellow);
@@ -222,16 +350,19 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             cursor: pointer; z-index: 2;
         }
-        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.9; }
+        .video-cover img { width: 100%; height: 100%; object-fit: cover; opacity: 0.95; }
+        
         .play-button {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 70px; height: 70px; background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(10px); border-radius: 50%; border: 2px solid #fff;
-            display: flex; justify-content: center; align-items: center; transition: all 0.3s;
+            width: 68px; height: 48px;
+            background: #FF0000;
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center; 
+            transition: all 0.2s cubic-bezier(0, 0, 0.2, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
         }
-        .video-cover:hover .play-button { background: #fff; transform: translate(-50%, -50%) scale(1.1); }
-        .play-button svg { fill: #fff; width: 24px; }
-        .video-cover:hover .play-button svg { fill: #000; }
+        .video-cover:hover .play-button { background: #CC0000; transform: translate(-50%, -50%) scale(1.1); }
+        .play-button svg { fill: #fff; width: 24px; height: 24px; margin-left: 4px; }
         
         #realVideo { width: 100%; height: 100%; display: none; }
         .video-container.playing .video-cover { display: none; }
@@ -245,7 +376,7 @@
         }
 
         /* =========================================
-           5. 公司简介 (White Background)
+           6. Company Intro
            ========================================= */
         .company-intro {
             background-color: var(--bg-white);
@@ -264,10 +395,22 @@
             border-radius: 16px; overflow: hidden; aspect-ratio: 1;
             background: #f5f5f5; position: relative;
         }
-        .intro-card img { width: 100%; height: 100%; object-fit: cover; }
+        .intro-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .intro-card:hover img { transform: scale(1.05); }
+
+        .intro-card-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%;
+            padding: 30px 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            pointer-events: none;
+        }
 
         /* =========================================
-           6. Featured 板块 (Light Yellow)
+           7. Featured Section
            ========================================= */
         .featured-section {
             background-color: var(--bg-yellow);
@@ -295,7 +438,7 @@
         .f-item-date { color: #888; font-size: 0.95rem; text-align: right; }
 
         /* =========================================
-           7. Footer
+           8. Footer
            ========================================= */
         .footer {
             background-color: #080808;
@@ -305,82 +448,48 @@
         }
 
         .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            gap: 40px;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;
         }
 
-        .footer-brand {
-            flex: 0 0 100%;
-            max-width: 300px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-brand h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            letter-spacing: 0.05em;
-        }
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
 
-        .footer-brand p {
-            color: #888;
-            line-height: 1.6;
-            font-size: 0.9rem;
-        }
-
-        .footer-section {
-            flex: 1;
-            min-width: 160px;
-        }
-
-        .footer-section h4 {
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #666;
-            margin-bottom: 24px;
-        }
-
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; }
         .footer-section ul { list-style: none; }
         .footer-section ul li { margin-bottom: 12px; }
         .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
         .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
 
         .footer-bottom {
-            max-width: 1400px;
-            margin: 80px auto 0 auto;
-            padding-top: 30px;
-            border-top: 1px solid #222;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #666;
-            font-size: 0.85rem;
+            max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px;
+            border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;
+            color: #666; font-size: 0.85rem;
         }
-
         .footer-social-icons { display: flex; gap: 20px; }
         .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
         .footer-social-icons a:hover { opacity: 1; }
         .footer-social-icons svg { fill: currentColor; }
 
         /* =========================================
-           8. 响应式 (Responsive)
+           9. Responsive
            ========================================= */
         @media (max-width: 1024px) {
             main { padding-top: 120px; height: auto; }
             .hero-content { width: 100%; }
-            /* 在移动端隐藏右侧图片，避免文字看不清 */
             .hero-image-right { width: 100%; opacity: 0.1 !important; }
             
             h1 { font-size: 3rem; }
-            .content-wrapper, .intro-text-row, .featured-container, .footer-content { flex-direction: column; gap: 40px; }
-            .video-container, .quote-container, .intro-headline, .intro-description, .featured-title, .featured-list { width: 100%; }
+            .content-wrapper, .intro-text-row, .featured-container, .footer-content, .news-layout { flex-direction: column; gap: 40px; }
+            .video-container, .quote-container, .intro-headline, .intro-description, .featured-title, .featured-list, .news-layout { width: 100%; }
+            
+            /* Reset Newspaper grid for mobile */
+            .news-layout { display: flex; flex-direction: column; border-bottom: none; }
+            .news-main-story { border-right: none; border-bottom: 1px solid #000; padding: 0 0 40px 0; }
+            .news-item-side { padding: 30px 0; }
+            
             .featured-item { grid-template-columns: 1fr; gap: 8px; }
             .f-item-date { text-align: left; }
             .intro-cards { grid-template-columns: 1fr; }
@@ -424,21 +533,59 @@
             <div class="cards-container">
                 <div class="card">
                     <div>
-                        <h3>Chat with TyloAI</h3>
-                        <p>Experience our most capable model, designed for complex reasoning.</p>
+                        <h3>Experience TyloAI</h3>
+                        <p>Meet our latest flagship model and the entire ode-7 family on our official chat platform. Also, get to know the newest member of our family—ode-7-code—now available on the ode-code CLI.</p>
                     </div>
                     <a href="https://tyloai.com" class="btn btn-black">Start Chatting</a>
                 </div>
                 <div class="card">
                     <div>
                         <h3>ode-code CLI</h3>
-                        <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks to help you code faster.</p>
+                        <p>ode-code CLI is a terminal-based AI assistant that understands your codebase and automates tasks to help you code faster. </p>
                     </div>
                     <a href="https://docs.tyloai.com/ode-code" class="btn btn-outline">Read Docs</a>
                 </div>
             </div>
         </div>
     </main>
+
+    <section class="news-section">
+        <div class="news-container">
+            <div class="news-header">
+                <h2>Latest News</h2>
+                <div class="date-badge">November 25, 2025</div>
+            </div>
+            
+            <div class="news-layout">
+                <a href="LLM-Thinking-Protocol-Injection.html" class="news-main-story">
+                    <span class="news-tag research">Research</span>
+                    <h3 class="news-headline-main">
+                        Empirical study on logical decoupling, asynchronous alignment, and fake transparency risks in DeepSeek-R1
+                    </h3>
+                    <p class="news-excerpt">
+                        A critical analysis of transparency protocols in modern LLMs. We investigate the underlying mechanisms of logic separation and the potential risks hidden within asynchronous alignment strategies.
+                    </p>
+                </a>
+
+                <div class="news-sidebar">
+                    <a href="ode-7-code-changes-your-life.html" class="news-item-side">
+                        <span class="news-meta">Product Insight</span>
+                        <h4 class="news-headline-side">Understand how ode-7-code transforms your coding routine</h4>
+                    </a>
+                    
+                    <a href="ode.html" class="news-item-side">
+                        <span class="news-meta">New Release</span>
+                        <h4 class="news-headline-side">Introducing the ode-7 model family: Smarter coding models</h4>
+                    </a>
+
+                    <a href="student.html" class="news-item-side">
+                        <span class="news-meta">Education</span>
+                        <h4 class="news-headline-side">TyloAI built for students and teachers, now free</h4>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="video-quote-section">
         <div class="content-wrapper">
@@ -455,7 +602,7 @@
             </div>
             <div class="quote-container">
                 <blockquote>
-                    "When you talk to a large language model, you are engaging with the sum of human knowledge, refined."
+                    "The pace of artificial intelligence development often outstrips our ability to fully comprehend the mechanisms at play. At Protoethik, we intentionally slow down the deployment phase to accelerate the understanding phase."
                 </blockquote>
             </div>
         </div>
@@ -465,17 +612,27 @@
         <div class="intro-content">
             <div class="intro-text-row">
                 <div class="intro-headline">
-                    <h2>Safety is the Axiom of Progress.</h2>
+                    <h2>“ Safety is the Axiom of Progress. ”</h2>
                 </div>
                 <div class="intro-description">
-                    <p>Founded in January 2025, TyloAI is on a mission to develop AI systems that think deeply, reason transparently, and genuinely understand the world. We believe AI should empower humanity, not replace human judgment.</p>
+                    <p>Founded in January 2025, Protoethik is on a mission to develop AI systems that think deeply, reason transparently, and genuinely understand the world. We believe AI should empower humanity, not replace human judgment.</p>
+                    <p>The pace of artificial intelligence development often outstrips our ability to fully comprehend the mechanisms at play. At Protoethik, we intentionally slow down the deployment phase to accelerate the understanding phase.</p>
                     <p>Our first product, <strong>TyloAI</strong>, demonstrates what's possible when cognitive architecture meets responsible development. With the ode-7 model family, we're not just building tools—we're crafting thinking partners that adapt to your needs and grow with you.</p>
                 </div>
             </div>
             <div class="intro-cards">
-                <div class="intro-card"><img src="1.jpg" alt="Visual 1"></div>
-                <div class="intro-card"><img src="2.jpg" alt="Visual 2"></div>
-                <div class="intro-card"><img src="3.jpg" alt="Visual 3"></div>
+                <div class="intro-card">
+                    <img src="1.jpg" alt="Transparent Safety">
+                    <div class="intro-card-overlay">Transparent Safety</div>
+                </div>
+                <div class="intro-card">
+                    <img src="2.jpg" alt="Deep Thinking">
+                    <div class="intro-card-overlay">Deep Thinking</div>
+                </div>
+                <div class="intro-card">
+                    <img src="3.jpg" alt="Empowering Humanity">
+                    <div class="intro-card-overlay">Empowering Humanity</div>
+                </div>
             </div>
         </div>
     </section>
@@ -484,6 +641,11 @@
         <div class="featured-container">
             <h2 class="featured-title">Featured</h2>
             <div class="featured-list">
+                <a href="ode.html" class="featured-item">
+                    <div class="f-item-title">Introducing ode-7 family</div>
+                    <div class="f-item-category">Product</div>
+                    <div class="f-item-date">Nov 20, 2025</div>
+                </a>
                 <a href="https://docs.tyloai.com/ode-code" class="featured-item">
                     <div class="f-item-title">Introducing ode-code CLI</div>
                     <div class="f-item-category">Product</div>
@@ -520,7 +682,7 @@
                 <ul>
                     <li><a href="https://tyloai.com/product/overview.html">TyloAI</a></li>
                     <li><a href="https://tyloai.com/product/ode-code.html">ode-code</a></li>
-                    <li><a href="https://platform.tyloai.com/api">API(Console login)</a></li>
+                    <li><a href="https://platform.tyloai.com/api">API (Console login)</a></li>
                     <li><a href="ode.html">ode-7 Models</a></li>
                     <li><a href="plan.html">Free Plan</a></li>
                     <li><a href="plan.html">Pro Plan</a></li>
