@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- Last Published: Mon Nov 24 2025 18:54:01 GMT+0000 (Coordinated Universal Time) -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -683,12 +683,123 @@
         width: 100%;
     }
 }
+/* =========================================
+   NEW: Mobile Navigation Overhaul
+   ========================================= */
+
+/* 1. 隐藏桌面端链接并设置移动端菜单图标 */
+@media (max-width: 768px) {
+    /* 强制隐藏桌面链接 */
+    .nav-links {
+        display: none !important; 
+    }
+    
+    /* 导航栏容器调整 */
+    nav {
+        justify-content: space-between; /* 确保 logo 和菜单图标两端对齐 */
+        padding: 15px 20px;
+    }
+
+    /* 2. 菜单图标样式 (三点或汉堡) */
+    .menu-icon {
+        display: flex; /* 在移动端显示 */
+        cursor: pointer;
+        padding: 8px; /* 点击区域 */
+        border-radius: 50%;
+        transition: background 0.2s;
+    }
+
+    .menu-icon:hover {
+        background: rgba(0,0,0,0.05);
+    }
+    
+    .menu-icon svg {
+        width: 24px;
+        height: 24px;
+        fill: #000;
+    }
+
+    /* 3. 弹出菜单容器样式 */
+    .mobile-menu-dropdown {
+        position: absolute;
+        top: 100%; /* 从导航栏下方开始 */
+        right: 20px; /* 与图标对齐 */
+        width: 220px;
+        background: var(--bg-white);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-soft);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 10px 0;
+        z-index: 999;
+        
+        /* 默认隐藏，通过 JS 控制显示 */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    }
+    
+    /* 菜单激活状态 */
+    .mobile-menu-dropdown.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .mobile-menu-dropdown a {
+        display: block;
+        padding: 12px 20px;
+        color: var(--text-main);
+        font-weight: 500;
+        font-size: 1rem;
+    }
+    
+    .mobile-menu-dropdown a:hover {
+        background-color: #f5f5f5;
+        color: var(--accent-blue);
+    }
+
+    /* 将 "Try TyloAI" 按钮区分开 */
+    .mobile-menu-dropdown .btn-nav {
+        margin: 10px 10px 0 10px;
+        padding: 10px 15px;
+        background-color: var(--accent-blue);
+        color: #fff !important;
+        border-radius: var(--radius-soft);
+        text-align: center;
+        width: auto;
+    }
+}
+
+/* 确保在桌面端图标隐藏 */
+@media (min-width: 769px) {
+    .menu-icon {
+        display: none;
+    }
+    .mobile-menu-dropdown {
+        display: none;
+    }
+}
     </style>
 </head>
 <body>
     <nav>
         <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        
         <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="https://docs.tyloai.com">Docs</a>
+            <a href="#news-section">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+
+        <div class="menu-icon" id="menuIcon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </div>
+
+        <div class="mobile-menu-dropdown" id="mobileMenu">
             <a href="index.html">Home</a>
             <a href="research.html">Research</a>
             <a href="https://docs.tyloai.com">Docs</a>
@@ -1102,7 +1213,38 @@
                 nav.classList.remove('scrolled');
             }
         });
+        // ============================
+        // 4. NEW: Mobile Menu Toggle Logic
+        // ============================
+        const menuIcon = document.getElementById('menuIcon');
+        const mobileMenu = document.getElementById('mobileMenu');
 
+        // 切换菜单的显示状态
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+        }
+
+        // 点击图标时切换菜单
+        menuIcon.addEventListener('click', (e) => {
+            // 阻止事件冒泡到 window，防止菜单立即关闭
+            e.stopPropagation(); 
+            toggleMenu();
+        });
+
+        // 点击菜单外部时关闭菜单 (仅在菜单打开时运行)
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && e.target !== menuIcon) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+        
+        // 菜单项被点击后自动关闭菜单 (例如，点击链接后跳转)
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // 为平滑滚动留出时间，确保菜单关闭
+                setTimeout(() => mobileMenu.classList.remove('active'), 300);
+            });
+        });
     </script>
 </body>
 </html>
