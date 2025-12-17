@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering | Protoethik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="description" content="Protoethik Engineering - Open source tools and infrastructure for the next generation of AI. Home of prompt-guard-lite.">
+    
+    <style>
+        /* =========================================
+           1. Core Variables (Dark Mode Base)
+           ========================================= */
+        :root {
+            --bg-dark: #050505;
+            --bg-card: #0F0F0F;
+            --text-main: #FFFFFF;
+            --text-muted: #888888;
+            --accent-blue: #2563EB;
+            --accent-glow: rgba(37, 99, 235, 0.15);
+            --border-color: #222222;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: "JetBrains Mono", "Fira Code", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        ::selection { background: var(--accent-blue); color: #fff; }
+
+        /* =========================================
+           2. Navigation (Dark Version)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .logo { font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em; color: #fff; }
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #ccc; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        
+        .btn-nav {
+            background-color: #fff; color: #000 !important;
+            padding: 8px 20px; border-radius: 50px;
+            font-weight: 600; font-size: 0.9rem;
+        }
+        .btn-nav:hover { background-color: #e5e5e5; }
+
+        /* =========================================
+           3. Hero: The Engineering Manifest
+           ========================================= */
+        .eng-hero {
+            padding: 160px 40px 100px 40px;
+            max-width: 1200px; margin: 0 auto;
+            position: relative;
+            background: linear-gradient(rgba(5, 5, 5, 0.7), rgba(5, 5, 5, 0.7)), 
+                        url('hero-prompt-guard-lite.jpg') center/cover fixed;
+            background-attachment: fixed;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-radius: 16px;
+            margin-bottom: 60px;
+        }
+        
+        .hero-label {
+            font-family: var(--font-mono); color: var(--accent-blue);
+            font-size: 0.9rem; margin-bottom: 20px; display: block;
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+        
+        .hero-title {
+            font-size: 4rem; font-weight: 800; line-height: 1.1;
+            letter-spacing: -0.03em; margin-bottom: 30px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem; color: var(--text-muted); max-width: 600px;
+            line-height: 1.6; margin-bottom: 50px;
+        }
+
+        .hero-code-section {
+            display: flex; gap: 20px; align-items: center; max-width: 600px; margin-top: 40px;
+        }
+
+        .hero-terminal {
+            background: #000; border-radius: 8px; padding: 16px 20px;
+            font-family: var(--font-mono); font-size: 0.95rem; color: #ccc;
+            border: 1px solid #333; flex: 1; cursor: pointer; transition: border-color 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .hero-terminal:hover { border-color: #666; }
+        .hero-cmd span { color: var(--accent-blue); margin-right: 8px; user-select: none; }
+        .hero-copy-icon { width: 16px; height: 16px; opacity: 0.6; cursor: pointer; }
+
+        .hero-github-btn {
+            background: var(--accent-blue); color: #fff !important;
+            padding: 12px 24px; border-radius: 8px; font-weight: 600;
+            font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;
+            transition: background 0.2s;
+        }
+        .hero-github-btn:hover { background: #1d4ed8; }
+        .github-icon { width: 18px; height: 18px; }
+
+        .grid-bg {
+            position: absolute; top: 0; right: 0; width: 50%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black, transparent);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* =========================================
+           4. Featured Project (The Star)
+           ========================================= */
+        .project-section {
+            padding: 0 40px 120px 40px;
+            max-width: 1200px; margin: 0 auto;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            display: grid; grid-template-columns: 1.2fr 0.8fr;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .project-card:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.1);
+        }
+
+        .p-content { padding: 60px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .p-badge {
+            background: rgba(37, 99, 235, 0.2); color: #60a5fa;
+            padding: 6px 12px; border-radius: 6px; display: inline-block;
+            font-family: var(--font-mono); font-size: 0.8rem; margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .p-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; }
+        
+        .p-desc { color: #aaa; font-size: 1.1rem; margin-bottom: 30px; }
+
+        .terminal-box {
+            background: #000; border-radius: 8px; padding: 20px;
+            font-family: var(--font-mono); font-size: 0.95rem; color: #ccc;
+            border: 1px solid #333; display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 30px; cursor: pointer; transition: border-color 0.2s;
+        }
+        .terminal-box:hover { border-color: #666; }
+        .cmd-text span { color: var(--accent-blue); margin-right: 10px; user-select: none; }
+        
+        .copy-icon { width: 18px; height: 18px; opacity: 0.6; }
+        
+        .p-stats {
+            display: flex; gap: 40px; border-top: 1px solid #222; padding-top: 24px;
+        }
+        .stat h4 { font-size: 1.5rem; font-weight: 700; color: #fff; }
+        .stat p { font-size: 0.85rem; color: #666; font-family: var(--font-mono); text-transform: uppercase; }
+
+        .p-visual {
+            background: url('prompt-guard-lite.jpg') center/cover;
+            background-color: #0a0a0a;
+            border-left: 1px solid var(--border-color);
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .p-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        /* Code snippet simulation */
+        .code-window {
+            width: 80%; background: #151515; border-radius: 8px;
+            border: 1px solid #333; padding: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            font-family: var(--font-mono); font-size: 0.8rem;
+            color: #a5b4fc; line-height: 1.5;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+        .cl-green { color: #4ade80; }
+        .cl-blue { color: #60a5fa; }
+        .cl-gray { color: #666; }
+
+        /* =========================================
+           5. Documentation Section
+           ========================================= */
+        .documentation-section {
+            padding: 100px 40px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .doc-container { max-width: 1200px; margin: 0 auto; }
+
+        .doc-header {
+            text-align: center; margin-bottom: 60px;
+        }
+
+        .doc-label {
+            font-family: var(--font-mono); color: var(--accent-blue);
+            font-size: 0.9rem; margin-bottom: 16px; display: block;
+            text-transform: uppercase; letter-spacing: 0.1em;
+        }
+
+        .doc-title {
+            font-size: 2.5rem; font-weight: 800; margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-subtitle {
+            font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;
+        }
+
+        .doc-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; margin-bottom: 60px;
+        }
+
+        .doc-box {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 40px; transition: border-color 0.3s;
+        }
+
+        .doc-box:hover { border-color: var(--accent-blue); }
+
+        .doc-box h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 12px; color: #fff; }
+        .doc-box p { color: #888; font-size: 0.95rem; line-height: 1.6; }
+
+        .doc-features {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 40px;
+        }
+
+        .feature-item { text-align: center; }
+        .feature-icon {
+            width: 48px; height: 48px; background: rgba(37, 99, 235, 0.2);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px; color: var(--accent-blue);
+        }
+        .feature-item h4 { font-size: 1rem; font-weight: 600; margin-bottom: 8px; color: #fff; }
+        .feature-item p { font-size: 0.85rem; color: #888; }
+
+        .doc-cta {
+            display: flex; gap: 20px; justify-content: center; margin-top: 60px;
+        }
+
+        .doc-btn {
+            padding: 12px 32px; border-radius: 8px; font-weight: 600;
+            border: 1px solid var(--border-color); transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .doc-btn-primary {
+            background: var(--accent-blue); color: #fff !important;
+            border-color: var(--accent-blue);
+        }
+
+        .doc-btn-primary:hover {
+            background: #1d4ed8;
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .doc-btn-secondary {
+            background: transparent; color: #fff !important;
+        }
+
+        .doc-btn-secondary:hover {
+            border-color: var(--accent-blue);
+            background: rgba(37, 99, 235, 0.1);
+        }
+
+        /* =========================================
+           6. Philosophy / Why JS?
+           ========================================= */
+        .philosophy-section {
+            padding: 100px 40px; border-top: 1px solid var(--border-color);
+        }
+        .ph-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; }
+        
+        .ph-item h3 { font-size: 1.5rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .ph-item p { color: #888; font-size: 1rem; line-height: 1.6; }
+        .ph-icon { 
+            width: 48px; height: 48px; background: #111; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 24px;
+            color: var(--accent-blue);
+        }
+
+        /* =========================================
+           7. Footer (Minimal Dark)
+           ========================================= */
+        .footer {
+            background-color: #080808;
+            color: #ffffff;
+            padding: 80px 40px 40px 40px;
+            font-size: 0.95rem;
+        }
+
+        .footer-content {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;
+        }
+
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
+        .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px;
+            border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;
+            color: #666; font-size: 0.85rem;
+        }
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 3rem; }
+            .hero-code-section { flex-direction: column; }
+            .project-card { grid-template-columns: 1fr; }
+            .p-visual { display: none; }
+            .ph-container { grid-template-columns: 1fr; gap: 40px; }
+            .doc-grid { grid-template-columns: 1fr; }
+            .doc-features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="https://docs.tyloai.com">Docs</a>
+            <a href="#news-section">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <section class="eng-hero">
+        <div class="grid-bg"></div>
+        <span class="hero-label">Engineering @ Protoethik</span>
+        <h1 class="hero-title">Code as Axiom.<br>Security as Protocol.</h1>
+        <p class="hero-desc">
+            We are building the foundational infrastructure for the next era of reasoning machines. 
+            Open source, Javascript-native, and built for the Edge.
+        </p>
+        
+        <div class="hero-code-section">
+            <div class="hero-terminal" onclick="copyHeroCmd()">
+                <div class="hero-cmd"><span>$</span> npm install @protoethik/prompt-guard-lite</div>
+                <svg class="hero-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            </div>
+            <a href="https://github.com/TyloAI/prompt-guard-lite" target="_blank" class="hero-github-btn">
+                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View on GitHub
+            </a>
+        </div>
+    </section>
+
+    <section class="project-section">
+        <div class="project-card">
+            <div class="p-content">
+                <span class="p-badge">Just Released • v1.0.0</span>
+                <h2 class="p-title">prompt-guard-lite</h2>
+                <p class="p-desc">
+                    Elite-grade, zero-dependency prompt-injection defense for JavaScript runtimes. 
+                    Protect your LLM apps from jailbreaks and supply-chain attacks in real-time with deterministic scoring.
+                </p>
+
+                <div class="terminal-box" onclick="copyCmd()">
+                    <div class="cmd-text"><span>$</span> npm install @protoethik/prompt-guard-lite</div>
+                    <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                </div>
+
+                <div class="p-stats">
+                    <div class="stat">
+                        <h4>MIT</h4>
+                        <p>License</p>
+                    </div>
+                    <div class="stat">
+                        <h4>100%</h4>
+                        <p>Test Coverage</p>
+                    </div>
+                    <div class="stat">
+                        <h4>&lt;1ms</h4>
+                        <p>Latency</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px;">
+                    <a href="https://github.com/TyloAI/prompt-guard-lite" target="_blank" style="color: #fff; font-weight: 600; border-bottom: 1px solid #444; padding-bottom: 2px;">
+                        View Repository ->
+                    </a>
+                </div>
+            </div>
+
+            <div class="p-visual">
+                <div class="code-window">
+                    <div style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 10px;">
+                        <span style="display:inline-block; width:10px; height:10px; background:#ef4444; border-radius:50%;"></span>
+                        <span style="display:inline-block; width:10px; height:10px; background:#eab308; border-radius:50%; margin-left:5px;"></span>
+                        <span style="display:inline-block; width:10px; height:10px; background:#22c55e; border-radius:50%; margin-left:5px;"></span>
+                    </div>
+                    <span class="cl-blue">import</span> { createDefaultGuard } <span class="cl-blue">from</span> <span class="cl-green">'@protoethik/prompt-guard-lite'</span>;<br><br>
+                    <span class="cl-blue">const</span> guard = createDefaultGuard();<br>
+                    <span class="cl-blue">const</span> result = guard.<span class="cl-blue">scan</span>(userInput);<br><br>
+                    <span class="cl-gray">// 🛡️ Blocked in &lt; 1ms</span><br>
+                    <span class="cl-blue">if</span> (result.level === <span class="cl-green">'high'</span>) {<br>
+                    &nbsp;&nbsp;<span class="cl-blue">throw</span> <span class="cl-blue">new</span> Error(<span class="cl-green">'Injection Detected'</span>);<br>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section class="documentation-section">
+        <div class="doc-container">
+            <div class="doc-header">
+                <span class="doc-label">📚 Documentation</span>
+                <h2 class="doc-title">Complete Security Framework</h2>
+                <p class="doc-subtitle">Comprehensive guide to implementing prompt-guard-lite in your LLM applications</p>
+            </div>
+
+            <div class="doc-grid">
+                <div class="doc-box">
+                    <h3>🚀 Quick Start</h3>
+                    <p>Get started in minutes with our lightweight, easy-to-integrate security framework. Install via npm and protect your prompts immediately with zero configuration overhead.</p>
+                </div>
+                <div class="doc-box">
+                    <h3>🔍 Advanced Features</h3>
+                    <p>Leverage multiple detection techniques including pattern matching, semantic analysis, statistical analysis, and pre-trained ML models for comprehensive threat detection.</p>
+                </div>
+                <div class="doc-box">
+                    <h3>⚡ Performance Optimized</h3>
+                    <p>Minimal latency (10-50ms per prompt) and lightweight architecture make it perfect for high-traffic production environments without impacting user experience.</p>
+                </div>
+                <div class="doc-box">
+                    <h3>🔧 Fully Customizable</h3>
+                    <p>Modular, plugin-based design allows you to configure security policies, enable/disable features, and adjust thresholds for your specific use cases.</p>
+                </div>
+            </div>
+
+            <div class="doc-features">
+                <div class="feature-item">
+                    <div class="feature-icon">🔐</div>
+                    <h4>Injection Detection</h4>
+                    <p>Pattern matching & semantic analysis</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <h4>ThreatClassification</h4>
+<p>ML-powered threat categorization</p>
+</div>
+<div class="feature-item">
+<div class="feature-icon">🌐</div>
+<h4>Multi-Language</h4>
+<p>Support across multiple languages</p>
+</div>
+<div class="feature-item">
+<div class="feature-icon">📈</div>
+<h4>Comprehensive Logging</h4>
+<p>Audit trails & monitoring</p>
+</div>
+<div class="feature-item">
+<div class="feature-icon">⚙️</div>
+<h4>Provider Agnostic</h4>
+<p>Works with any LLM provider</p>
+</div>
+<div class="feature-item">
+<div class="feature-icon">🧪</div>
+<h4>Production Ready</h4>
+<p>Battle-tested & enterprise-grade</p>
+</div>
+</div>
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 40px; margin-top: 40px;">
+            <h3 style="font-size: 1.3rem; margin-bottom: 20px; color: #fff;">Core API Classes</h3>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                <div>
+                    <h4 style="color: var(--accent-blue); margin-bottom: 8px; font-size: 0.95rem; font-weight: 600;">PromptGuard</h4>
+                    <p style="color: #888; font-size: 0.85rem;">Main class for security analysis with methods: analyze(), batch_analyze(), get_stats()</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--accent-blue); margin-bottom: 8px; font-size: 0.95rem; font-weight: 600;">SecurityConfig</h4>
+                    <p style="color: #888; font-size: 0.85rem;">Configuration class for customizing detection rules, thresholds, and feature toggles</p>
+                </div>
+                <div>
+                    <h4 style="color: var(--accent-blue); margin-bottom: 8px; font-size: 0.95rem; font-weight: 600;">AnalysisResult</h4>
+                    <p style="color: #888; font-size: 0.85rem;">Result object with is_safe, threat_type, confidence_score, and detailed analysis</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-cta">
+            <a href="prompt-guard-lite-docs.html" class="doc-btn doc-btn-primary">View Full Documentation</a>
+            <a href="https://github.com/TyloAI/prompt-guard-lite" target="_blank" class="doc-btn doc-btn-secondary">GitHub Repository</a>
+        </div>
+    </div>
+</section>
+
+<section class="philosophy-section">
+    <div class="ph-container">
+        <div class="ph-item">
+            <div class="ph-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <h3>Edge First</h3>
+            <p>We reject the Python hegemony in AI. Our tools are built for Vercel Edge, Cloudflare Workers, and the Browser. No containers required.</p>
+        </div>
+        <div class="ph-item">
+            <div class="ph-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <h3>Transparent Security</h3>
+            <p>Security shouldn't be a black box. Our scoring algorithms are deterministic, inspectable, and explainable by default.</p>
+        </div>
+        <div class="ph-item">
+            <div class="ph-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+            </div>
+            <h3>Built in Public</h3>
+            <p>We open source our core infrastructure because the safety of AGI is a collective responsibility, not a trade secret.</p>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <h3>Protoethik</h3>
+            <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Products</h4>
+            <ul>
+                <li><a href="https://tyloai.com">TyloAI</a></li>
+                <li><a href="https://docs.tyloai.com/ode-code.html">ode-code</a></li>
+                <li><a href="ode.html">ode-7 Models</a></li>
+                <li><a href="plan.html">Free Plan</a></li>
+                <li><a href="plan.html">Pro Plan</a></li>
+                <li><a href="plan.html">Max Plan</a></li>
+                <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                <li><a href="https://tyloai.com/login">Login to TyloAI</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Model</h4>
+            <ul>
+                <li><a href="ode.html">ode-7 family</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>TyloAI Developer Platform</h4>
+            <ul>
+                <li><a href="https://docs.tyloai.com">Overview</a></li>
+                <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                <li><a href="https://docs.tyloai.com/search.html">search</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Company</h4>
+            <ul>
+                <li><a href="about.html">Protoethik</a></li>
+                <li><a href="research.html">Research</a></li>
+                <li><a href="careers.html">Careers</a></li>
+                <li><a href="https://github.com/TyloAI/" target="_blank">Open Source</a></li>
+            </ul>
+        </div>
+        
+        <div class="footer-section">
+            <h4>Terms and policies</h4>
+            <ul>
+                <li><a href="privacy.html">Privacy</a></li>
+                <li><a href="terms.html">Terms</a></li>
+                <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                <li><a href="https://support.tyloai.com">Support</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 Protoethik Inc. All rights reserved.</p>
+        <div class="footer-social-icons">
+            <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+            </a>
+            <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+            <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="mailto:info@tyloai.com" aria-label="Email Us">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function copyCmd() {
+        const cmd = "npm install @protoethik/prompt-guard-lite";
+        navigator.clipboard.writeText(cmd);
+        const box = document.querySelector('.terminal-box');
+        const originalBorder = box.style.borderColor;
+        box.style.borderColor = '#4ade80';
+        setTimeout(() => {
+            box.style.borderColor = originalBorder;
+        }, 300);
+    }
+
+    function copyHeroCmd() {
+        const cmd = "npm install @protoethik/prompt-guard-lite";
+        navigator.clipboard.writeText(cmd);
+        const box = document.querySelector('.hero-terminal');
+        const originalBorder = box.style.borderColor;
+        box.style.borderColor = '#4ade80';
+        setTimeout(() => {
+            box.style.borderColor = originalBorder;
+        }, 300);
+    }
+</script>
+</body>
+</html>
