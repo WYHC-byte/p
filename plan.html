@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plans & Pricing | Protoethik</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    
+    <style>
+        /* =========================================
+           1. Visual System (Replicated)
+           ========================================= */
+        :root {
+            --text-main: #050505;
+            --text-gray: #555555;
+            --bg-white: #ffffff;
+            --bg-yellow: #FFFDF2;       
+            --youtube-red: #FF0000;     
+            --btn-radius: 50px;         
+            --font-serif: "Georgia", "Times New Roman", Times, serif;
+
+            --bg-body: #ffffff;
+            --accent-blue: #2563EB;
+            --border-color: #E5E5E5;
+            --radius-soft: 8px;
+            --font-stack: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-mono: "JetBrains Mono", "Fira Code", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-white);
+            font-family: var(--font-stack);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: opacity 0.2s, color 0.2s; }
+        ul { list-style: none; }
+
+        /* =========================================
+           2. Navigation (Replicated)
+           ========================================= */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95); /* Fixed solid for pricing page readability */
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-weight: 800; font-size: 1.4rem; letter-spacing: -0.03em;
+            text-transform: uppercase; color: #000;
+        }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; }
+        .nav-links a { color: #000; font-size: 0.95rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent-blue); }
+
+        .btn-nav {
+            background-color: #000; color: #fff !important;
+            padding: 10px 24px; border-radius: var(--btn-radius);
+            font-weight: 600; font-size: 0.9rem;
+        }
+
+        /* Mobile Menu Styles */
+        .menu-icon { display: none; cursor: pointer; padding: 8px; border-radius: 50%; }
+        .menu-icon svg { width: 24px; height: 24px; fill: #000; }
+        
+        .mobile-menu-dropdown {
+            position: absolute; top: 100%; right: 20px; width: 220px;
+            background: var(--bg-white); border: 1px solid var(--border-color);
+            border-radius: var(--radius-soft); box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 10px 0; z-index: 999; opacity: 0; visibility: hidden;
+            transform: translateY(-10px); transition: all 0.3s ease;
+        }
+        .mobile-menu-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .mobile-menu-dropdown a { display: block; padding: 12px 20px; color: var(--text-main); font-weight: 500; }
+        .mobile-menu-dropdown .btn-nav { margin: 10px; width: auto; text-align: center; display: block; background: var(--accent-blue); }
+
+        /* =========================================
+           3. Pricing Section (Custom 3D Layout)
+           ========================================= */
+        .pricing-section {
+            padding: 160px 40px 120px 40px;
+            min-height: 100vh;
+            background: radial-gradient(circle at 50% 10%, #fffdf2 0%, #ffffff 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .pricing-header {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 80px;
+        }
+
+        .pricing-header h1 {
+            font-size: 3.5rem; font-weight: 800; letter-spacing: -0.03em;
+            margin-bottom: 20px;
+        }
+        
+        .pricing-header p {
+            font-size: 1.2rem; color: var(--text-gray);
+        }
+
+        /* The 3D Perspective Container */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            perspective: 2000px; /* Key to the 3D effect */
+        }
+
+        .plan-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            
+            /* Initial "Floating" State */
+            transform-style: preserve-3d;
+            transform: rotateX(5deg) translateY(0) scale(0.98);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease, border-color 0.3s;
+        }
+
+        /* Hover Effect: Float towards user */
+        .plan-card:hover {
+            transform: rotateX(0deg) translateY(-15px) translateZ(60px) scale(1);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.12), 0 10px 20px rgba(37, 99, 235, 0.05);
+            border-color: var(--accent-blue);
+            z-index: 10;
+        }
+
+        /* Max Plan: Spans full width */
+        .plan-card.max-plan {
+            grid-column: 1 / -1;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            background: #000;
+            color: #fff;
+            border-color: #333;
+            /* Slightly different angle for the bottom slab */
+            transform: rotateX(8deg) translateY(0) scale(0.98);
+        }
+
+        .plan-card.max-plan:hover {
+            transform: rotateX(0deg) translateY(-10px) translateZ(80px) scale(1);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.3);
+            border-color: #333;
+        }
+
+        /* Card Typography */
+        .plan-name {
+            font-size: 1.5rem; font-weight: 700; margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+        .plan-price {
+            font-size: 3rem; font-weight: 800; margin-bottom: 5px;
+            letter-spacing: -0.03em;
+        }
+        .plan-period {
+            font-size: 0.9rem; color: #888; margin-bottom: 30px; font-weight: 500;
+        }
+        
+        /* Feature List */
+        .feature-list { flex-grow: 1; margin-bottom: 30px; }
+        .feature-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            margin-bottom: 14px; font-size: 0.95rem; color: #444;
+            line-height: 1.4;
+        }
+        .feature-item svg {
+            min-width: 18px; width: 18px; height: 18px; fill: var(--accent-blue);
+            margin-top: 2px;
+        }
+        
+        /* Max Plan Specifics */
+        .max-plan .plan-name, .max-plan .plan-price { color: #fff; }
+        .max-plan .plan-period { color: #aaa; }
+        .max-plan .feature-item { color: #ccc; }
+        .max-plan .feature-item svg { fill: #fff; }
+        
+        .max-header { flex: 0 0 25%; }
+        .max-features { 
+            flex: 1; 
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            padding: 0 40px;
+            border-left: 1px solid #333; border-right: 1px solid #333;
+            margin: 0 40px;
+        }
+
+        /* Buttons */
+        .btn-plan {
+            display: block; width: 100%; padding: 14px 0;
+            text-align: center; border-radius: 8px;
+            font-weight: 600; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-plan.outline {
+            border: 2px solid #000; color: #000; background: transparent;
+        }
+        .btn-plan.outline:hover { background: #000; color: #fff; }
+        
+        .btn-plan.solid {
+            background: var(--accent-blue); color: #fff; border: 2px solid var(--accent-blue);
+        }
+        .btn-plan.solid:hover { background: #1d4ed8; border-color: #1d4ed8; }
+
+        .max-plan .btn-plan {
+            background: #fff; color: #000; border: none; width: auto; padding: 16px 40px;
+        }
+        .max-plan .btn-plan:hover { background: #e5e5e5; }
+
+        /* Highlight Logic (Pro/Go specific styles if needed) */
+        .badge {
+            display: inline-block; padding: 4px 10px;
+            background: var(--bg-yellow); border: 1px solid #ddd;
+            border-radius: 20px; font-size: 0.75rem; font-weight: 700;
+            margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+
+        /* =========================================
+           4. Footer (Replicated)
+           ========================================= */
+        .footer {
+            background-color: #080808; color: #ffffff;
+            padding: 80px 40px 40px 40px; font-size: 0.95rem;
+        }
+        .footer-content {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;
+        }
+        .footer-brand { flex: 0 0 100%; max-width: 300px; margin-bottom: 20px; }
+        .footer-brand h3 { font-size: 1.5rem; font-weight: 700; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.05em; }
+        .footer-brand p { color: #888; line-height: 1.6; font-size: 0.9rem; }
+
+        .footer-section { flex: 1; min-width: 160px; }
+        .footer-section h4 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #666; margin-bottom: 24px; }
+        .footer-section ul li { margin-bottom: 12px; }
+        .footer-section ul li a { color: #ccc; transition: color 0.2s, padding-left 0.2s; }
+        .footer-section ul li a:hover { color: #fff; padding-left: 4px; }
+
+        .footer-bottom {
+            max-width: 1400px; margin: 80px auto 0 auto; padding-top: 30px;
+            border-top: 1px solid #222; display: flex; justify-content: space-between; align-items: center;
+            color: #666; font-size: 0.85rem;
+        }
+        .footer-social-icons { display: flex; gap: 20px; }
+        .footer-social-icons a { color: #fff; opacity: 0.6; transition: opacity 0.2s; }
+        .footer-social-icons a:hover { opacity: 1; }
+        .footer-social-icons svg { fill: currentColor; }
+
+        /* =========================================
+           5. Responsive Design
+           ========================================= */
+        @media (max-width: 1024px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                /* Remove 3D effect on mobile for better usability */
+                perspective: none;
+                gap: 40px;
+            }
+            .plan-card, .plan-card.max-plan {
+                transform: none !important; /* Disable 3D transform */
+                grid-column: auto;
+            }
+            .plan-card:hover, .plan-card.max-plan:hover {
+                transform: translateY(-5px) !important;
+            }
+            .max-plan {
+                flex-direction: column;
+                text-align: left;
+            }
+            .max-header, .max-features { width: 100%; margin: 0; padding: 0; border: none; margin-bottom: 30px; }
+            .max-features { grid-template-columns: 1fr; gap: 0; }
+            .max-plan .btn-plan { width: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 20px; }
+            .nav-links { display: none; }
+            .menu-icon { display: flex; }
+            
+            .pricing-section { padding: 120px 20px 60px 20px; }
+            .pricing-header h1 { font-size: 2.2rem; }
+            
+            .footer { padding: 60px 20px 40px 20px; }
+            .footer-content { flex-direction: column; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PROTOETH<span style="font-style:italic;">I</span>K</div>
+        
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="https://docs.tyloai.com">Docs</a>
+            <a href="index.html#news-section">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+
+        <div class="menu-icon" id="menuIcon">
+            <svg viewBox="0 0 24 24"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </div>
+
+        <div class="mobile-menu-dropdown" id="mobileMenu">
+            <a href="index.html">Home</a>
+            <a href="research.html">Research</a>
+            <a href="https://docs.tyloai.com">Docs</a>
+            <a href="index.html#news-section">News</a>
+            <a href="about.html">Company</a>
+            <a href="https://tyloai.com" class="btn-nav">Try TyloAI</a>
+        </div>
+    </nav>
+
+    <section class="pricing-section">
+        <div class="pricing-header">
+            <h1>Choose your reasoning capacity.</h1>
+            <p>Scale your intelligence from daily checks to unlimited deep thinking.</p>
+        </div>
+
+        <div class="pricing-grid">
+            
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-name">Free</div>
+                    <div class="plan-price">$0</div>
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        3,000 points / day
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        5 Post Thinking / month
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7-Flash: 50 pts/msg
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7: 300 pts/msg
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Extended Thinking: +100 pts
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Web Search: +100 pts
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Daily check-in streak bonus
+                    </li>
+                </ul>
+                <a href="#" class="btn-plan outline">Get Started</a>
+            </div>
+
+            <div class="plan-card">
+                <span class="badge">Most Popular</span>
+                <div class="plan-header">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">$9.99</div>
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        6,000 points / day
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        15 Post Thinking / month (3 periods)
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        <strong>Ode-7-Flash: Unlimited</strong>
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7: 400 pts/msg
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7-Reasoning: +1000 pts
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        <strong>Unlimited Extended Thinking</strong>
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Monthly restore: 1x/month
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Priority support
+                    </li>
+                </ul>
+                <a href="#" class="btn-plan solid">Subscribe Pro</a>
+            </div>
+
+            <div class="plan-card">
+                <div class="plan-header">
+                    <div class="plan-name">Go</div>
+                    <div class="plan-price">$19.99</div>
+                    <div class="plan-period">per month</div>
+                </div>
+                <ul class="feature-list">
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        9,000 points / day
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        30 Post Thinking / month (3 periods)
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7-Flash: Unlimited
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        <strong>Ode-7: 200 pts/msg (Discounted)</strong>
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Ode-7-Reasoning: +1000 pts
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Extended Thinking Unlimited
+                    </li>
+                    <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        <strong>2 hours/week "Unlimited Frenzy"</strong>
+                    </li>
+                </ul>
+                <a href="#" class="btn-plan outline">Subscribe Go</a>
+            </div>
+
+            <div class="plan-card max-plan">
+                <div class="max-header">
+                    <div class="plan-name">Max</div>
+                    <div class="plan-price">$29.99</div>
+                    <div class="plan-period">per month</div>
+                </div>
+                
+                <div class="max-features">
+                    <ul class="feature-list">
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            <strong>Unlimited Everything</strong>
+                        </li>
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            No point system (hidden)
+                        </li>
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Unlimited Ode-7
+                        </li>
+                    </ul>
+                    <ul class="feature-list">
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Unlimited Post Thinking & Extended
+                        </li>
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Unlimited Web Search
+                        </li>
+                        <li class="feature-item"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            VIP Priority Support & Early Access
+                        </li>
+                    </ul>
+                </div>
+                
+                <a href="#" class="btn-plan">Go Limitless</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>Protoethik</h3>
+                <p>Building responsible AI systems that empower humanity through deep thinking and transparent reasoning. Founded January 2025.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://tyloai.com">TyloAI</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code</a></li>
+                    <li><a href="ode.html">ode-7 Models</a></li>
+                    <li><a href="plan.html">Pricing</a></li>
+                    <li><a href="plan-for-enterprise.html">Enterprise plan</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Model</h4>
+                <ul>
+                    <li><a href="ode.html">ode-7 family</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>TyloAI Developer Platform</h4>
+                <ul>
+                    <li><a href="https://docs.tyloai.com">Overview</a></li>
+                    <li><a href="https://docs.tyloai.com/docs.html">Docs</a></li>
+                    <li><a href="https://docs.tyloai.com/ode-code.html">ode-code docs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="about.html">Protoethik</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Terms and policies</h4>
+                <ul>
+                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="terms.html">Terms</a></li>
+                    <li><a href="mailto:info@tyloai.com">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Protoethik Inc. All rights reserved.</p>
+            <div class="footer-social-icons">
+                <a href="https://www.youtube.com/tyloai" target="_blank" aria-label="TyloAI on YouTube">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zM9.777 15.385V8.615l6.23 3.385-6.23 3.385z"/></svg>
+                </a>
+                <a href="https://github.com/TyloAI" target="_blank" aria-label="TyloAI on GitHub">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <a href="https://x.com/TyloAI" target="_blank" aria-label="TyloAI on X (Twitter)">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Logic (Replicated)
+        const menuIcon = document.getElementById('menuIcon');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+        }
+
+        menuIcon.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            toggleMenu();
+        });
+
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && e.target !== menuIcon) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+        
+        // Navbar Scroll Logic
+        window.addEventListener('scroll', () => {
+            // Optional: You can keep nav transparent at very top if desired, 
+            // but for pricing page, solid background usually reads better.
+            // This script block is kept for consistency with main site behavior.
+        });
+    </script>
+</body>
+</html>
